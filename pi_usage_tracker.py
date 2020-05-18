@@ -58,9 +58,15 @@ def send_email():
 
     msg.set_content(f"Current temp: {current.cpu}. Threshold exceeded: {current.cpu_threshold}\nCurrent load average: {current.la}. Threshold exceeded: {current.la_threshold}\nCurrent disk usage: {current.disk}%. Threshold exceeded: {current.disk_threshold}")
 
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-        smtp.send_message(msg)
+    if real_run:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            smtp.send_message(msg)
+    else:
+        # Run this command in terminal before running the app to run a debug server on your local to see these messages.
+        # python3 -m smtpd -c DebuggingServer -n localhost:1025
+        with smtplib.SMTP('localhost', 1025) as smtp:
+            smtp.send_message(msg)
 
 class PiStats:
     def __init__(self, cpu, la, disk):
