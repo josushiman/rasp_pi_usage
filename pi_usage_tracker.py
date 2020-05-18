@@ -47,12 +47,15 @@ def insert_to_db(date, cpu_temp, load_avg, disk_usage):
 class PiStats:
     def __init__(self, cpu, la, disk):
         logger.debug(f"Initialising PiStats Object")
-        # self.cpu = cpu.temperature
-        # self.la = la.load_average
-        # self.disk = disk.usage
-        self.cpu = cpu
-        self.la = la
-        self.disk = disk
+        if real_run:
+            self.cpu = cpu.temperature
+            self.la = la.load_average
+            self.disk = disk.usage
+        else:
+            self.cpu = cpu
+            self.la = la
+            self.disk = disk
+            
         try:
             self.cpu_threshold = cpu.is_active
             self.la_threshold = la.is_active
