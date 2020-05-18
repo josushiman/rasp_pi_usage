@@ -1,5 +1,3 @@
-# https://gpiozero.readthedocs.io/en/stable/api_internal.html?highlight=memory%20usage#cputemperature
-
 import logging
 import sqlite3
 from datetime import datetime
@@ -63,13 +61,6 @@ class PiStats:
         except Exception as e:
             logger.exception(f"Exception raised: {e}")
         logger.info(f"Successfully initialised PiStats Object")
-    
-    def check_threshold():
-        if self.cpu_threshold or self.la_threshold or self.disk_threshold:
-            logger.warn(f"Threshold exceeded: CPU {self.cpu_threshold}, Load Avg {self.la_threshold}, Disk % {disk_threshold}")
-            return True
-        logger.info(f"No thresholds exceeded")
-        return False
 
 if real_run:
     cpu = CPUTemperature(min_temp=50, max_temp=90, threshold=70)
@@ -80,11 +71,11 @@ else:
     la = 20
     disk = 50
 
-# Add in notification system for thresholds
-
 current = PiStats(cpu, la, disk)
 insert_to_db(datetime.now(), current.cpu, current.la, current.disk)
 
-print(f"Current temp: {current.cpu}")
-print(f"Current load average: {current.la}")
-print(f"Current disk usage: {current.disk}%")
+# Add in notification system for thresholds
+if current.cpu_threshold or current.la_threshold or current.disk_threshold:
+    logger.warn(f"Threshold exceeded: CPU {current.cpu_threshold}, Load Avg {current.la_threshold}, Disk % {current.disk_threshold}")
+    # Send email notif
+logger.info(f"No thresholds exceeded")
