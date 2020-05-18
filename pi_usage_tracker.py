@@ -4,7 +4,7 @@ from datetime import datetime
 from gpiozero import CPUTemperature, LoadAverage, DiskUsage
 
 # Config for REAL run or TEST run
-real_run = False
+real_run = True
 
 # Setting up the logger
 logger = logging.getLogger(__name__)
@@ -79,3 +79,7 @@ if current.cpu_threshold or current.la_threshold or current.disk_threshold:
     logger.warn(f"Threshold exceeded: CPU {current.cpu_threshold}, Load Avg {current.la_threshold}, Disk % {current.disk_threshold}")
     # Send email notif
 logger.info(f"No thresholds exceeded")
+
+print(f"Current temp: {current.cpu}")
+print(f"Current load average: {current.la}")
+print(f"Current disk usage: {current.disk}%")
