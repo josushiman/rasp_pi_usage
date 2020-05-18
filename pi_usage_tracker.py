@@ -5,6 +5,9 @@ import sqlite3
 from datetime import datetime
 from gpiozero import CPUTemperature, LoadAverage, DiskUsage
 
+# Config for REAL run or TEST run
+real_run = False
+
 # Setting up the logger
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -65,18 +68,20 @@ class PiStats:
         logger.info(f"No thresholds exceeded")
         return False
 
-# cpu = CPUTemperature(min_temp=50, max_temp=90, threshold=70)
-# la = LoadAverage(min_load_average=0, max_load_average=2, threshold=1)
-# disk = DiskUsage(threshold=80)
+if real_run:
+    cpu = CPUTemperature(min_temp=50, max_temp=90, threshold=70)
+    la = LoadAverage(min_load_average=0, max_load_average=2, threshold=1)
+    disk = DiskUsage(threshold=80)
+else:
+    cpu = 12
+    la = 20
+    disk = 50
 
-cpu = 12
-la = 20
-disk = 50
+# Add in notification system for thresholds
 
 current = PiStats(cpu, la, disk)
+insert_to_db(datetime.now(), current.cpu, current.la, current.disk)
 
 print(f"Current temp: {current.cpu}")
 print(f"Current load average: {current.la}")
 print(f"Current disk usage: {current.disk}%")
-
-insert_to_db(datetime.now(), current.cpu, current.la, current.disk)
