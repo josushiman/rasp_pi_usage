@@ -7,7 +7,7 @@ from datetime import datetime
 from gpiozero import CPUTemperature, LoadAverage, DiskUsage
 
 # Config for REAL run or TEST run
-real_run = False
+real_run = True
 
 # Setting up the logger
 logger = logging.getLogger(__name__)
