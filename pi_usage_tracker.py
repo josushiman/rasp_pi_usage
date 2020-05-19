@@ -1,7 +1,7 @@
 import logging
 import sqlite3
-import os
 import smtplib
+import config
 from email.message import EmailMessage
 from datetime import datetime
 from gpiozero import CPUTemperature, LoadAverage, DiskUsage
@@ -48,9 +48,9 @@ def send_email():
     # Stored here:
     #   nano ~/.zshrc [MAC]
     #   nano ~/.bash_profile [Pi]
-    EMAIL_ADDRESS = os.environ.get('GMAIL_USER')
-    EMAIL_PASSWORD = os.environ.get('GMAIL_PASS')
-    EMAIL_RECIPIENT = os.environ.get('GMAIL_RASP_RECIPIENT')
+    EMAIL_ADDRESS = config.gmail["sender_email"]
+    EMAIL_PASSWORD = config.gmail["sender_password"]
+    EMAIL_RECIPIENT = config.gmail["recipient_email"]
 
     msg = EmailMessage()
     msg['Subject'] = 'Threshold Exceeded'

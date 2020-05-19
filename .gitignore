@@ -1,6 +1,9 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
+# Config file
+config.py
+
 # Other Misc
 *.db
 *.log
