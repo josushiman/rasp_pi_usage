@@ -40,20 +40,22 @@ def insert_to_db(date, cpu_temp, load_avg, disk_usage):
     except Exception as e:
         logger.exception(f"Exception raised: {e}")
     finally:
-        if db:
-            logger.debug(f"INSERT to DB SUCCESSFUL")
-            db.close()
-    return True
+        logger.debug(f"INSERT to DB SUCCESSFUL")
+        db.close()
 
 def send_email():
     # Retrieving config for Gmail
+    # Stored here:
+    #   nano ~/.zshrc [MAC]
+    #   nano ~/.bash_profile [Pi]
     EMAIL_ADDRESS = os.environ.get('GMAIL_USER')
     EMAIL_PASSWORD = os.environ.get('GMAIL_PASS')
+    EMAIL_RECIPIENT = os.environ.get('GMAIL_RASP')
 
     msg = EmailMessage()
     msg['Subject'] = 'Threshold Exceeded'
     msg['From'] = EMAIL_ADDRESS
-    msg['To'] = 'timurmustafa1989+raspi@gmail.com'
+    msg['To'] = EMAIL_RECIPIENT
 
     msg.set_content(f"Current temp: {current.cpu}. Threshold exceeded: {current.cpu_threshold}\nCurrent load average: {current.la}. Threshold exceeded: {current.la_threshold}\nCurrent disk usage: {current.disk}%. Threshold exceeded: {current.disk_threshold}")
 
