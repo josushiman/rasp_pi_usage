@@ -50,7 +50,7 @@ def send_email():
     #   nano ~/.bash_profile [Pi]
     EMAIL_ADDRESS = os.environ.get('GMAIL_USER')
     EMAIL_PASSWORD = os.environ.get('GMAIL_PASS')
-    EMAIL_RECIPIENT = os.environ.get('GMAIL_RASP')
+    EMAIL_RECIPIENT = os.environ.get('GMAIL_RASP_RECIPIENT')
 
     msg = EmailMessage()
     msg['Subject'] = 'Threshold Exceeded'
