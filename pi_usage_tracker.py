@@ -2,7 +2,6 @@ import logging
 import sqlite3
 import os
 import smtplib
-import imghdr
 from email.message import EmailMessage
 from datetime import datetime
 from gpiozero import CPUTemperature, LoadAverage, DiskUsage
@@ -107,4 +106,5 @@ insert_to_db(datetime.now(), current.cpu, current.la, current.disk)
 if current.cpu_threshold or current.la_threshold or current.disk_threshold:
     logger.warning(f"Threshold exceeded: CPU {current.cpu_threshold}, Load Avg {current.la_threshold}, Disk % {current.disk_threshold}")
     send_email()
-logger.info(f"No thresholds exceeded")
+else:
+    logger.info(f"No thresholds exceeded")
